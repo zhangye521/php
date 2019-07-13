@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查看团队</title>
+    <link rel="stylesheet" href="/static/css/layui.css">
+    <style>
+        .layui-upload-img{
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<script src="__STATIC__/layui.js"></script>
+<body>
+<form class="layui-form" action="">
+    <input type="hidden" name="tid" value="{$team['tid']}">
+    <div class="layui-form-item">
+        <label class="layui-form-label">团队名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="tname" required  lay-verify="required" placeholder="请输入团队名称" autocomplete="off" class="layui-input" value="{$team['tname']}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">团队职位</label>
+        <div class="layui-input-block">
+            <input type="text" name="tposition" required  lay-verify="required" placeholder="请输入团队职位" autocomplete="off" class="layui-input" value="{$team['tposition']}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">缩略图</label>
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" id="test1">上传图片</button>
+            <div class="layui-upload-list">
+                <img class="layui-upload-img" id="demo1" src="{$team['tavatar']}">
+                <p id="demoText"></p>
+            </div>
+            <input type="hidden" name="tavatar" value="{$team['tavatar']}" id="tavatar_hidden">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">团队经验</label>
+        <div class="layui-input-block">
+            <input type="text" name="texp" required  lay-verify="required" placeholder="请输入团队经验" autocomplete="off" class="layui-input" value="{$team['texp']}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">设计方向</label>
+        <div class="layui-input-block">
+            <input type="text" name="tdir" required  lay-verify="required" placeholder="请输入团队经验" autocomplete="off" class="layui-input" value="{$team['tdir']}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">邮箱</label>
+        <div class="layui-input-block">
+            <input type="email" name="tmail" required  lay-verify="required|email" placeholder="请输入团队经验" autocomplete="off" class="layui-input" value="{$team['tmail']}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否显示</label>
+        <div class="layui-input-block">
+            是：<input type="radio" name="tstatus" lay-skin="switch" value="1" {$team['tstatus']==1?'checked':''}>
+            否：<input type="radio" name="tstatus" value="0" {$team['tstatus']==0?'checked':''}>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">描述</label>
+        <div class="layui-input-block">
+            <textarea name="tdes" placeholder="请输入描述" class="layui-textarea">{$team['tdes']}</textarea>
+        </div>
+    </div>
+
+</form>
+
+<script>
+    //Demo
+    layui.use(['form',"element","upload","layer"], function(){
+        let {form,$,upload,layer}=layui;
+        //单图片上传
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="__STATIC__/css/layui.css">
+    <title>团队管理</title>
+    <script src="__STATIC__/layui.js"></script>
+    <style>
+        .layui-table img{
+            height:auto;
+        }
+    </style>
+</head>
+<body>
+<div class="demoTable">
+    <button type="button" class="layui-btn insertcategory" id="add">
+        <i class="layui-icon">&#xe608;</i> 添加
+    </button>
+    <div class="layui-inline">
+        <input class="layui-input" name="id" id="demoReload" autocomplete="off" placeholder=" 搜索团队成员名字">
+    </div>
+    <button class="layui-btn" data-type="reload">搜索</button>
+</div>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs" lay-event="query">查看</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script type="text/html" id="tstatus">
+   {{# if(d.tstatus==1){ }}
+   <input type="checkbox" name="switch" lay-skin="switch" checked>
+    {{# }else{ }}
+   <input type="checkbox" name="switch" lay-skin="switch">
+   {{# }; }}
+</script>
+<table id="demo" lay-filter="test"></table>
+</body>
+<script>
+    layui.use(["table","layer"],function () {
+        let {table,$,layer}=layui;
+        //表格的数据渲染
+       let teamtable=table.render({
+            elem:"#demo",
+            cellMinWidth:80,
+            url:"{:url('admin/team/getteam')}",
+            cols:[[
+                {field:"tid",title:"序号"},
+                {field:"tname",title:"名字"},
+                {field:"tposition",title:"职位"},
+                {field:"tavatar",title:"头像",templet:function(d){
+            return `<img src="${d.tavatar}">`;
+        },width:200},
+                {field:"texp",title:"工作经验"},
+                {field:"tdes",title:"团队简介"},
+                {field:"tdir",title:"工作方向"},
+                {field:"tmail",title:"邮箱"},
+                {field:"tstatus",title:"是否显示",templet:"#tstatus"},
+                {fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+            ]],
+        });
+        //搜索通过id显示对应的数据 表格重载
+        $("button[data-type=reload]").on("click",function(){
+            let tname=$("#demoReload").val().trim();
+            teamtable.reload({
+                where:{tname:tname},
+                page:{curr:1},
+            })
+        })
+        //添加
+        $("#add").click(function () {
+            layer.open({
+                type:2,
+                title:"添加团队",
+                maxmin:true,
+                content:"{:url('admin/team/showinsert')}",
+                area:["450px","500px"],
+            })
+        })
+        table.on("tool(test)", function (obj) {
+            // console.log(obj);
+            let {data, event, del} = obj;
+            if (event == "del") {
+                layer.confirm("确定要删除么？", function (index) {
+                    layer.close(index1);
+                    //加载动画
+                    let index1 = layer.load(2);
+                    $.ajax({
+                        url: "{:url('admin/team/delteam')}",
+                        data: {tid: data.tid},
+                        type: "post",
+                        success: function (res) {
+                            let {code, msg} = res;
+                            layer.close(index1);
+                            let icon = code == 0 ? 6 : 5;
+                            if (code == 0) {
+                                del();//前台页面的删除
+                            }
+                            layer.msg(msg, {icon});
+                        }
+                    })
+                })
+            }else if(event=="edit"){
+                layer.open({
+                    title:"商品编辑"+data.tname,
+                    type:2,
+                    content:"{:url('admin/team/editteam')}?tid="+data.tid,
+                    maxmin:true,
+                    area:["450px","500px"],
+                })
+            }else if(event=="query"){
+                layer.open({
+                    title:"商品查看"+data.ctitle,
+                    type:2,
+                    content:"{:url('admin/team/queryteam')}?tid="+data.tid,
+                    maxmin:true,
+                    area:["450px","500px"],
+                })
+            }
+        });
+    })
+</script>
+</html>

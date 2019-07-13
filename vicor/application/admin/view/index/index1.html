@@ -1,0 +1,70 @@
+{include file="public/header" title="vicor后台主页面"}
+<style>
+    .layui-tab-item{
+        position: absolute;
+        top: 75px;
+        left: 15px;
+        right: 15px;
+        bottom: 15px;
+    }
+    iframe{
+        width: 100%;
+        height: 100%;
+    }
+</style>
+{include file="public/aside"}
+<div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px; position: relative; height: 100%;">
+    <div class="layui-tab" lay-filter="demo" lay-allowclose="true">
+        <ul class="layui-tab-title">
+            <!--<li class="layui-this" lay-id="11">网站设置<>-->
+        </ul>
+        <div class="layui-tab-content">
+            <!--<div class="layui-tab-item layui-show">内容1</div>-->
+        </div>
+    </div>
+    </div>
+    {include file="public/footer"}
+</div>
+<script src="__STATIC__/layui.js"></script>
+<script>
+    //JavaScript代码区域
+    layui.use('element', function(){
+        var element = layui.element;
+        var $ = layui.$;
+        $(".itemtab").on("click",function () {
+            let _this=$(this);
+            let title=_this.children("a").text();
+            let id=_this.attr("id");
+            let laytab=$(".layui-tab-title>li[lay-id]");
+            let url=_this.data("url");
+            if(!laytab.length){
+                element.tabAdd('demo', {
+                    title, //用于演示
+                    content:"<iframe frameborder='0' src='"+url+"'></iframe>",
+                    id:id, //实际使用一般是规定好的id，这里以时间戳模拟下
+                })
+                element.tabChange("demo",id);
+            }else{
+                let flag=false;
+                laytab.each(function (index,element) {
+                    if($(element).attr("lay-id")==id){
+                        flag=true;
+                    }
+                })
+                if(!flag){
+                    element.tabAdd('demo', {
+                        title, //用于演示
+                        content: "<iframe frameborder='0' src='"+url+"'></iframe>",
+                        id:id,
+                    })
+                }
+            element.tabChange("demo",id);
+            }
+
+        })
+    });
+</script>
+</body>
+</html>

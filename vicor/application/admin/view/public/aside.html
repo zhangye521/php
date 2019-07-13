@@ -1,0 +1,19 @@
+<div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+            <li class="layui-nav-item layui-nav-itemed itemtab" id="1"  data-url="{:url('admin/category/index')}">
+                <a class="" href="javascript:;" >管理分类</a>
+            </li>
+            <li class="layui-nav-item" id="2"  data-url="">
+                <a href="javascript:;" >管理商品</a>
+                <dl class="layui-nav-child">
+                    <dd class="itemtab" id="2-1" data-url="{:url('admin/goods/showinsert')}"><a href="javascript:;">商品添加</a></dd>
+                    <dd class="itemtab" id="2-2" data-url="{:url('admin/goods/index')}"><a href="javascript:;">商品查看</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item itemtab" id="3"  data-url="{:url('admin/team/index')}"><a href="javascript:;" >管理团队</a></li>
+            <li class="layui-nav-item itemtab" id="4"  data-url="{:url('admin/cases/index')}"><a href="javascript:;" >管理案例</a></li>
+        </ul>
+    </div>
+</div>

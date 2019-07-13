@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>案例展示</title>
+    <link rel="stylesheet" href="/static/css/layui.css">
+    <script src="__STATIC__/layui.js"></script>
+    <style>
+        iframe {
+            padding: 30px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+<div class="demoTable">
+    <button type="button" class="layui-btn" id="add">
+        <i class="layui-icon">&#xe608;</i> 添加
+    </button>
+    <div class="layui-inline">
+        <input class="layui-input" name="aname" id="demoReload" autocomplete="off" placeholder=" 搜索产品名字">
+    </div>
+    <button class="layui-btn" data-type="reload">搜索</button>
+</div>
+
+<table id="demo" lay-filter="test"></table>
+</body>
+</html>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="query">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+    layui.use(["table", "layer"], function () {
+        let {table, $, layer} = layui;
+       let casestable=table.render({
+            elem: "#demo",
+            height: 400,
+            url: "{:url('admin/cases/showcases')}",
+            cols: [[
+                {field: "aid", "title": "案例序号", fixed: "left"},
+                {field: "aname", "title": "产品名字"},
+                {
+                    field: "athumb", "title": "产品图片", templet: function (d) {
+                        return `<img src="${d.athumb}">`;
+                    }
+                },
+                {field: "ades", "title": "产品描述"},
+                {field: "tid", "title": "设计师"},
+                {"title": "操作", templet: "#barDemo"}
+            ]],
+           page:true,
+           limit:3,
+        });
+        $('button[data-type=reload]').on('click', function(){
+          let aname=$("#demoReload").val().trim();
+          casestable.reload({
+              where:{aname:aname},
+              page: {
+                  curr: 1 //重新从第 1 页开始
+              }
+          })
+        });
+        //添加
+        $("#add").click(function () {
+            let index = layer.msg(2);
+            layer.open({
+                title: "案例添加",
+                type: 2,
+                area: ['400px', "500px"],
+                maxmin: true,
+                content: "{:url('admin/cases/showinsert')}",
+                success: function () {
+                    layer.close(index1);
+                }
+            })
+        })
+        //监听行工具事件
+        table.on('tool(test)', function (obj) { ////注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            let {data, event, tr} = obj;////data获得当前行数据 avent获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）tr获得当前行 tr 的DOM对象
+            if (event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    $.ajax({
+                        url: "{:url('admin/cases/delcases')}",
+                        data: {aid: data.aid},
+                        dataType: 'json',
+                        type: "post",
+                        success: function (res) {
+                            let {code, msg} = res;
+                            let icon = code == 0 ? 6 : 5;
+                            if (code == 0) {
+                                layer.close(index1);
+                            }
+                            layer.msg(msg, {icon});
+                        }
+                    })
+
+                });
+            } else if (event === "edit") {
+                layer.open({
+                    type: 2,
+                    area: ['500px', "500px"],
+                    maxmin: true,
+                    content: '{:url("admin/cases/editcases")}?aid=' + data.aid,
+                    success: function () {
+
+                    }
+                });
+            } else if (event === "query") {
+                layer.open({
+                    type: 2,
+                    area: ['500px', "500px"],
+                    maxmin: true,
+                    content: '{:url("admin/cases/querycases")}?aid=' + data.aid,
+                    success: function () {
+
+                    }
+                });
+            }
+        });
+    })
+</script>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分类管理</title>
+    <link rel="stylesheet" href="__STATIC__/css/layui.css">
+    <script src="__STATIC__/layui.js"></script>
+</head>
+<body>
+<div class="demoTable">
+    <button type="button" class="layui-btn insertcategory" id="add">
+        <i class="layui-icon">&#xe608;</i> 添加
+    </button>
+    <div class="layui-inline">
+        <input class="layui-input" name="id" id="demoReload" autocomplete="off" placeholder=" 搜索ID：">
+    </div>
+    <button class="layui-btn" data-type="reload">搜索</button>
+</div>
+
+<table id="demo" lay-filter="test"></table>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+    //模块化使用，加载layui中的模块
+    layui.use(['table', 'layer'], function () {
+        //结构
+        let {table, $, layer} = layui;
+        //表格数据的渲染
+        let catetable = table.render({
+            elem: "#demo",
+            cellMinWidth: 80,
+            url: "{:url('admin/category/getcategory')}",
+            cols: [[
+                {field: "cid", title: "栏目id"},
+                {
+                    field: "cname", title: "栏目名称", edit: 'text', templet: function (res) {
+                        return '<b>' + res.cname + '</b>'
+                    }
+                },
+                {field: "sort", title: "栏目排序", edit: 'text'},
+                {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150}
+            ]],
+            data: [
+                {cid: 1, cname: "桌子", sort: "1"},
+                {cid: 2, cname: "椅子", sort: "1"},
+                {cid: 3, cname: "凳子", sort: "1"},
+                {cid: 4, cname: "茶几", sort: "1"},
+                {cid: 5, cname: "沙发", sort: "1"},
+            ],
+            page: true, //开启分页
+            // limit: 9,//限制条数
+        });
+        //搜索通过id显示对应的数据 表格重载
+        $("button[data-type=reload]").on("click", function () {
+            let cid = $("#demoReload").val().trim();
+            catetable.reload({
+                where: {cid: cid},//设定异步数据接口的额外参数，任意设
+                page: {curr: 1},//重新从第 1 页开
+            })
+        });
+        //监听工具条//删除
+        //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        table.on("tool(test)", function (obj) {
+            // console.log(obj);
+            let {data, event, del} = obj;
+            if (event == "del") {
+                layer.confirm("确定要删除么？", function (index) {
+                    layer.close(index1);
+                    //加载动画
+                    let index1 = layer.load(2);
+                    $.ajax({
+                        url: "{:url('admin/category/delcategory')}",
+                        data: {cid: data.cid},
+                        type: "post",
+                        success: function (res) {
+                            let {code, msg} = res;
+                            layer.close(index1);
+                            let icon = code == 0 ? 6 : 5;
+                            if (code == 0) {
+                                del();//前台页面的删除
+                            }
+                            layer.msg(msg, {icon});
+                        }
+                    })
+                })
+            }
+        });
+        //编辑  bug 空值修改失败不会恢复到以前的值
+        table.on("edit(test)", function (obj) {
+            // console.log(obj);
+            let {value, data, field} = obj;
+            value && $.ajax({
+                url: "{:url('admin/category/editcategory')}",
+                type: "post",
+                data: {value, field, cid: data.cid},
+                dataType: "json",
+                success: function (res) {
+                    let {code, msg} = res;
+                    let icon = code == 0 ? 6 : 5;
+                    layer.msg(msg, {icon});
+                }
+            })
+        });
+        //添加
+        $("#add").click(function () {
+            layer.open({
+                type: 2,
+                title: "添加分类",
+                maxmin: true,//最大最小化
+                content: ["{:url('admin/category/showinsert')}", "no"],
+                area: ["450px", "350px"],
+            })
+        })
+    })
+</script>
+</body>
+</html>

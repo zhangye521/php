@@ -1,0 +1,117 @@
+{include file="public/header" title="个人管理页面"}
+{include file="public/aside"}
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <form class="layui-form"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+            <div class="layui-form-item">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username" placeholder="请输入" autocomplete="off" class="layui-input" value="{$admin['username']}" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-block">
+                    <input type="email" name="email" placeholder="请输入" autocomplete="off" class="layui-input" value="{$admin['email']}" required>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-block">
+                    <input type="radio" required name="sex" value="1" title="男" {$admin['sex']==1?"checked":""}>
+                    <input type="radio" required name="sex" value="2" title="女" {$admin['sex']==2?"checked":""}>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">头像</label>
+                <div class="layui-input-block">
+                    <button type="button" class="layui-btn" id="test1">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>&nbsp;<span>头像最佳比例为1:1</span>
+                    <br>
+                    <img src="{$admin['avatar']}" alt="" id="review">
+                    <input type="hidden" value="{$admin['avatar']}" name="avatar" id="hidden">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="" class="layui-textarea" name="remark" required>{$admin['remark']}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="*">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+            <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
+        </form>
+    </div>
+
+{include file="public/footer"}
+</div>
+
+<script>
+    //JavaScript代码区域
+    layui.use(['element','form','upload'], function(){
+        var element = layui.element;
+        let {form,$,upload}=layui;
+        let arr=[];//存放要删除图片的地址
+        //文件上传
+        upload.render({
+            elem: '#test1',
+            url:"{:url('api/upload/upload')}",
+            accept:"images",//指定允许上传时校验的文件类型，可选值有：images（图片）、file（所有文件）、video（视频）、audio（音频）
+            acceptMime: 'image/jpg, image/png',//规定打开文件选择框时，筛选出的文件类型s
+            // field:"file",
+            size:100,
+            done: function(res, index, upload){
+                //解构赋值
+                let {code,data,msg}=res;
+                if(code==0){
+                    let avatar=$("#review");
+                    arr.push(avatar.attr("src"));
+                    $("#review").attr("src",data.src);
+                    $("#hidden").val(data.src);
+                }
+            },
+            error: function(index, upload){
+                //请求异常回调
+            }
+        });
+        //提交表单数据
+        form.on('submit(*)', function(data){
+            // console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+            // console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+            // console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+            let {elem,form,field}=data;
+            delete field.file;
+            $.ajax({
+                url: "{:url('admin/info/update')}",
+                type:"POST",
+                dataType:"json",
+                data:field,
+                success:function(r){
+                    layer.open({
+                        type: 0,
+                        content: '修改成功' //这里content是一个普通的String
+                    });
+                }
+            });
+            arr.length && $.ajax({
+                url: "{:url('api/upload/del')}",
+                data:{img:arr},
+                dataType:"json",
+                type:"post",
+                success:function(){
+
+                }
+            });
+            return false;
+        });
+
+    });
+</script>
+</body>
+</html>

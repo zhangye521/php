@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>[title]</title>
+    <link rel="stylesheet" href="/static/css/layui.css">
+    <script src="__STATIC__/layui.js"></script>
+    <script src="__JS__/jquery.js"></script>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo"><a href="{:url('admin/index/init')}">小爷管理系统</a></div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="">控制台</a></li>
+            <li class="layui-nav-item"><a href="">商品管理</a></li>
+            <li class="layui-nav-item"><a href="">用户</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">其它系统</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">邮件管理</a></dd>
+                    <dd><a href="">消息管理</a></dd>
+                    <dd><a href="">授权管理</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="{$admin['avatar']}" class="layui-nav-img">
+                    {$admin['username']}
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="{:url('admin/info/index')}">个人资料</a></dd>
+                    <dd><a href="{:url('admin/info/system')}">网站设置</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="{:url('admin/login/logout')}">退了</a></li>
+        </ul>
+    </div>

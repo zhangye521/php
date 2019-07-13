@@ -1,0 +1,168 @@
+{include file="public/header" title="vicor"}
+<link rel="stylesheet" href="/static/css/index/index.css">
+<!-- 导航开始 -->
+<nav>
+    <a href="{:url('index/lists/index')}" class="title">商品列表</a>
+    <a href="javascript:void(0)" class="title">案例展示</a>
+    <a href="javascript:void(0)" class="title">设计团队</a>
+    <a href="javascript:void(0)" class="title">品牌故事</a>
+</nav>
+<!-- 导航结束 -->
+<!-- //Swiper容器的css选择器 -->
+<section class="banner swiper-container" id="swiper1">
+    <div href="javascript:void(0)" class="swiper-wrapper">
+        {volist name="banner" id="vo"}
+        <div class="swiper-slide">
+            <a href="{:url('index/goods/')}"> <img src="{$vo['gthumb']}" alt="" title="{$vo['ctitle']}"></a>
+        </div>
+        {/volist}
+    </div>
+    <div class="swiper-pagination"></div>
+</section>
+<!-- 新品首发开始 -->
+<section class="newStart" id="class" name="class">
+    <div class="newStart-box">
+        <img src="/static/img/新品首发@3x.png" alt="">
+    </div>
+</section>
+<p class="number1"><b id="page">1</b>/{:count($newgoods)}</p>
+<section class="newStart-list swiper-container" id="swiper2">
+    <ul class="swiper-wrapper">
+        {volist name="newgoods" id="vo"}
+        <li class="newStart-items swiper-slide">
+            <a class="picture1" href="6.1details.html">
+                <img src="{$vo['gthumb']}" alt="">
+            </a>
+            <div class="VERFO">
+                <div class="line3"></div>
+                <p class="text3">{$vo['etitle']}</p>
+                <p class="text4">{$vo['ctitle']}</p>
+            </div>
+            <div class="buy">
+                <p class="price">
+                    <b>{$vo['price']}</b>RMB
+                </p>
+                <a href="" class="Click">
+                    <i class="iconfont icon-tianjia1"></i> 点击购买
+                </a>
+            </div>
+            <div class="newStart-hot"></div>
+        </li>
+        {/volist}
+    </ul>
+</section>
+<!-- 新品首发结束 -->
+<!-- 热销产品开始 -->
+<section class="newStart">
+    <div class="newStart-box">
+        <img src="/static/img/热销产品@3x.png" alt="">
+    </div>
+</section>
+<div class="hot-list">
+    <div class="hot-box">
+        <div class="hot-picture1">
+            <img src="{$hotgoods[0]['gthumb']}" alt="">
+        </div>
+        <div class="hot-name">
+            <p class="hot-title">{$hotgoods[0]['etitle']}</p>
+            <p class="hot-text">{$hotgoods[0]['ctitle']}</p>
+        </div>
+        <div class="hot-price">
+            <p class="price-num"><b>{$hotgoods[0]['price']}</b>RMB</p>
+            <P class="price-text">BUY NOW<i class="iconfont icon-youjiantou"></i></P>
+        </div>
+        <div class="circle">
+            {volist name="$hotgoods[0]['gcolor']" id="color" key="k"}
+            <div class="circle{$k}" style="background:{$color};"></div>
+            {/volist}
+        </div>
+    </div>
+    <ul class="hot-product">
+        {volist name="hotgoods" id="vo" offset="0"}
+        <li class="hot-item">
+            <p class="sofa-text1">{$vo['etitle']}</p>
+            <p class="sofa-text2">{$vo['ctitle']}</p>
+            <div class="sofa-picture">
+                <img src="{$vo['gthumb']}" alt="">
+            </div>
+            <div class="hot-price">
+                <p class="price-num"><b>{$vo['price']}</b>RMB</p>
+                <P class="price-text">BUY NOW<i class="iconfont icon-youjiantou"></i></P>
+            </div>
+            <div class="circle">
+                {volist name="$vo['gcolor']" id="color" key="k"}
+                <div class="circle{$k}" style="background:{$color};"></div>
+                {/volist}
+            </div>
+        </li>
+        {/volist}
+    </ul>
+</div>
+<div class="view-more">
+    <div class="more-box">
+        <div class="more-line"></div>
+        <a class="more-middle" href="javascript:void(0)">查看更多</a>
+        <div class="more-line"></div>
+    </div>
+</div>
+<!-- 热销产品结束 -->
+<!-- 案例展示开始 -->
+<section class="newStart">
+    <div class="newStart-box">
+        <img src="/static/img/形状5拷贝4@3x.png" alt="">
+    </div>
+</section>
+<div class="case-box">
+    <a href="" class="case-image">
+        <img src="{$cases['athumb']}" alt="">
+    </a>
+    <p class="case-title">{$cases['aname']}</p>
+    <p class="case-text">{$cases['ades']}
+    </p>
+    <a class="know" href="javascript:void(0)">了解更多</a>
+</div>
+<!-- 案例展示结束 -->
+<!-- 品牌故事开始 -->
+<section class="newStart">
+    <div class="newStart-box">
+        <img src="/static/img/品牌故事@3x.png" alt="" class="dif">
+    </div>
+</section>
+<a class="Brand-story" href="">
+    <img src="/static/img/Brand1.png" alt="">
+</a>
+<!-- 品牌故事结束 -->
+
+<script src="__JS__/index.js"></script>
+<div class="empty"></div>
+<footer>
+    <ul>
+        <li>
+            <a href="javascript:void(0)" class="tab">
+                <i class="iconfont icon-yizi"></i>
+                <p>首页</p>
+            </a>
+        </li>
+        <li>
+            <a href="{:url('index/category/index')}" class="tab">
+                <i class="iconfont icon-leimupinleifenleileibie--"></i>
+                <p>分类</p>
+            </a>
+        </li>
+        <li>
+            <a href="5shopping.html" class="tab">
+                <i class="iconfont icon-gouwuche-"></i>
+                <p>购物车</p>
+            </a>
+        </li>
+        <li>
+            <a href="3.2mine.html" class="tab">
+                <i class="iconfont icon-wode"></i>
+                <p>我的</p>
+            </a>
+        </li>
+    </ul>
+</footer>
+</body>
+<script src="__JS__/swiper.min.js"></script>
+</html>

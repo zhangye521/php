@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加</title>
+    <link rel="stylesheet" href="/static/css/layui.css">
+    <script src="__STATIC__/layui.js"></script>
+    <style>
+        .layui-upload-img {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">产品名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="aname" required lay-verify="required" placeholder="请输入产品名称" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">产品缩略图</label>
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" id="test1">上传图片</button>
+            <div class="layui-upload-list">
+                <img class="layui-upload-img" id="demo1" src="">
+                <p id="demoText"></p>
+                <input type="hidden" name="athumb" value="" id="athumb_hidden">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">设计师</label>
+        <div class="layui-input-block">
+            <select name="tid" lay-verify="required">
+                <option value=""></option>
+                {volist name="team" id="vo"}
+                <option value="{$vo['tid']}">{$vo["tname"]}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">产品描述</label>
+        <div class="layui-input-block">
+            <textarea name="ades" placeholder="请输入产品描述" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    //Demo
+    layui.use(['form', "element", "upload", "layer"], function () {
+        let {form, $, upload, layer} = layui;
+        upload.render({
+            elem: '#test1'
+            , url: '{:url("api/upload/upload")}'
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#demo1').attr('src', result); //图片链接（base64）
+                });
+            }
+            , done: function (res) {
+                let {code, msg, data} = res;
+                let icon = code == 0 ? 6 : 5;
+                if (code == 0) {
+                    let athumb = $("#demo1");
+                    athumb.attr("src", data.src);
+                    $("#athumb_hidden").val(data.src);
+                }
+                layer.msg(msg, {icon});
+            }
+        });
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            // console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+            // console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+            // console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+            let {elem, form, field} = data;
+            let index1 = layer.load(2);
+            $.ajax({
+                url: "{:url('admin/cases/insertcases')}",
+                data: field,
+                dataType: "json",
+                type: "post",
+                success: function (res) {
+                    layer.close(index1);
+                    let {code, msg} = res;
+                    let icon = code == 0 ? 6 : 5;
+                    if (code == 0) {
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.layer.close(index); //再执行关闭
+                    }
+                    layer.msg(msg, {icon});
+                }
+            });
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可.
+        });
+    });
+</script>
+</body>
+</html>

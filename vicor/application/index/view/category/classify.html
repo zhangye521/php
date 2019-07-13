@@ -1,0 +1,266 @@
+{include file="public/header"}
+<link rel="stylesheet" href="__STATIC__/css/index/classify.css">
+<body>
+
+    <header>
+        <div class="header-box">
+            <div class="header-box-left" href="">
+                <a href="1index.html"><i class="iconfont icon-fangxiang-zuo"></i></a>
+            </div>
+            <div class="header-box-middle">
+            </div>
+            <div class="header-box-right" href="">
+                <a href=""><i class="iconfont icon-sangedian"></i></a>
+            </div>
+        </div>
+    </header>
+    <!-- 搜索开始 -->
+    <section class="search">
+        <a href="3.1list.html" class="search-icon">
+            <i class="iconfont icon-sousuo"></i>
+        </a>
+        <form action="" method="get">
+            <input type="text" placeholder="搜索店内精品">
+            <button>搜索</button>
+        </form>
+    </section>
+    <!-- 搜索结束 -->
+    <div class="classify-box">
+        <!--侧导航开始  -->
+        <aside>
+            <ul class="aside-list">
+                <li class="aside-item">
+                    <a href="javasaript:void(0)">全部宝贝</a>
+                </li>
+                {volist name="category" id="vo"}
+                <li class="aside-item">
+                    <a href="javasaript:void(0)">{$vo['cname']}</a>
+                </li>
+                 {/volist}
+            </ul>
+        </aside>
+        <!--侧导航结束  -->
+        <!-- 新品到店开始 -->
+        <!-- //包裹层 -->
+        <div class="store-box">
+            <!-- 滚动层 -->
+            <div class="store-box1">
+                <div class="message">下拉刷新</div>
+                <div class="store-banner">
+                    <img src="img/store-banner.png" alt="">
+                </div>
+                <div class="store-title">
+                    <div class="store-line"></div>
+                    <span>新品到店</span>
+                    <div class="store-line"></div>
+                </div>
+                <ul class="store-list">
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify1.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify2.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify3.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify4.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify5.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify6.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify7.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify8.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify9.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                </ul>
+                <ul class="store-list">
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify1.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify2.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify3.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify4.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify5.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify6.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify7.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify8.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify9.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                </ul>
+                <ul class="store-list">
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify1.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify2.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify3.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify4.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify5.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify6.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify7.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify8.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                    <li class="store-item">
+                        <div class="store-picture">
+                            <img src="img/classify9.png" alt="">
+                        </div>
+                        <p class="store-time">3 月 22 日 上新</p>
+                    </li>
+                </ul>
+                <div class="down">我是上拉加载</div>
+                <div class="empty1"></div>
+            </div>
+        </div>
+        <!-- 新品到店结束 -->
+
+    </div>
+
+    <footer>
+        <ul>
+            <li>
+                <a href="1index.html" class="tab">
+                    <i class="iconfont icon-yizi"></i>
+                    <p>首页</p>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="tab">
+                    <i class="iconfont icon-leimupinleifenleileibie--"></i>
+                    <p>分类</p>
+                </a>
+            </li>
+            <li>
+                <a href="5shopping.html" class="tab">
+                    <i class="iconfont icon-gouwuche-"></i>
+                    <p>购物车</p>
+                </a>
+            </li>
+            <li>
+                <a href="3.2mine.html" class="tab">
+                    <i class="iconfont icon-wode"></i>
+                    <p>我的</p>
+                </a>
+            </li>
+        </ul>
+    </footer>
+</body>
+<script src="js/jquery-3.4.1.js"></script>
+<script src="js/iscroll-probe.js"></script>
+<script src="js/classify.js"></script>
+
+</html>

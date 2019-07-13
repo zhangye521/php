@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加团队</title>
+    <link rel="stylesheet" href="/static/css/layui.css">
+    <style>
+        .layui-upload-img{
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<script src="__STATIC__/layui.js"></script>
+<body>
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">团队名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="tname" required  lay-verify="required" placeholder="请输入团队名称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">团队职位</label>
+        <div class="layui-input-block">
+            <input type="text" name="tposition" required  lay-verify="required" placeholder="请输入团队职位" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">缩略图</label>
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" id="test1">上传图片</button>
+            <div class="layui-upload-list">
+                <img class="" id="demo1" src="">
+                <p id="demoText"></p>
+            </div>
+            <input type="hidden" name="tavatar" value="" id="tavatar_hidden">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">团队经验</label>
+        <div class="layui-input-block">
+            <input type="text" name="texp" required  lay-verify="required" placeholder="请输入团队经验" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">设计方向</label>
+        <div class="layui-input-block">
+            <input type="text" name="tdir" required  lay-verify="required" placeholder="请输入团队经验" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">邮箱</label>
+        <div class="layui-input-block">
+            <input type="email" name="tmail" required  lay-verify="required|email" placeholder="请输入团队经验" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否显示</label>
+        <div class="layui-input-block">
+            是：<input type="radio" name="tstatus" lay-skin="switch" value="1">
+            否：<input type="radio" name="tstatus" value="0">
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">描述</label>
+        <div class="layui-input-block">
+            <textarea name="tdes" placeholder="请输入描述" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    //Demo
+    layui.use(['form',"element","upload","layer"], function(){
+        let {form,$,upload,layer}=layui;
+        //单图片上传
+        upload.render({
+            elem:"#test1",//绑定元素
+            url:"{:url('api/upload/upload')}",//上传接口
+            accept:"images",
+            size:100,
+            done:function(res,index,upload){
+                let {code,data,msg}=res;
+                if(code==0){
+                    let gavatar=$("#demo1");
+
+                    gavatar.attr("src",data.src);
+                    $("#tavatar_hidden").val(data.src);
+                }else{
+                    layer.msg("商品缩略图"+msg);
+                }
+            },
+            error:function(index,upload){
+            }
+        });
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+           let {elem,form,field}=data;
+           let index=layer.load(2)
+           $.ajax({
+               url:"{:url('admin/team/insertteam')}",
+               data:field,
+               dataType:"json",
+               type:"post",
+               success:function(res){
+                   layer.close(index);
+                  let {code,msg}=res;
+                  icon=code==0?6:5;
+                     if(code==0) {
+                         layer.msg(msg,{icon});
+                         var index1 = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                         parent.layer.close(index1); //再执行关闭
+                     }
+
+               }
+           });
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+    });
+</script>
+</body>
+</html>

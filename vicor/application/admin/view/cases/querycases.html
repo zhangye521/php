@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加</title>
+    <link rel="stylesheet" href="/static/css/layui.css">
+    <script src="__STATIC__/layui.js"></script>
+    <style>
+        .layui-upload-img {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+<form class="layui-form" action="">
+    <input type="hidden" name="aid" value="{$cases['aid']}">
+    <div class="layui-form-item">
+        <label class="layui-form-label">产品名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="aname" required lay-verify="required" placeholder="请输入产品名称" autocomplete="off"
+                   class="layui-input" value="{$cases['aname']}"
+             disabled>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">产品缩略图</label>
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" id="test1"  disabled>上传图片</button>
+            <div class="layui-upload-list">
+                <img class="layui-upload-img" id="demo1" src="{$cases['athumb']}">
+                <p id="demoText"></p>
+                <input type="hidden" name="athumb" value="{$cases['athumb']}" id="athumb_hidden">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">设计师</label>
+        <div class="layui-input-block">
+            <select name="tid" lay-verify="required"  disabled>
+                <option value="" ></option>
+                {volist name="team" id="vo"}
+                <option value="{$vo['tid']}" {$cases['tid']==$vo['tid']?'selected':''}>{$vo["tname"]}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">产品描述</label>
+        <div class="layui-input-block">
+            <textarea name="ades" placeholder="请输入产品描述" class="layui-textarea"  disabled>{$cases['ades']}</textarea>
+        </div>
+    </div>
+</form>
+
+<script>
+    //Demo
+    layui.use(['form', "element", "upload", "layer"], function () {
+        let {form, $, upload, layer} = layui;
+    });
+</script>
+</body>
+</html>
